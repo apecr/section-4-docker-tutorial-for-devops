@@ -228,3 +228,11 @@ bridge and iptables port mappings.
 https://docs.docker.com/network/overlay-standalone.swarm/
 
 ### 31.- Define Container Networks with Doker Compose
+
+```
+git checkout -b v0.4
+docker-compose up -d
+docker network ls
+docker-compose down
+## Include my_net in the docker_compose
+docker-compose up -d
