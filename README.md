@@ -132,3 +132,99 @@ lo        Link encap:Local Loopback
 * Containers from different bridge networks can't connect with each other by default.
 * Reduces the level of network isolation in favor of better outside connectivity.
 * Most suitable where you want to set up a relatively small network on a single host.
+
+### 29.- D3: Host Network and Overlay Network
+
+```
+docker run -d --name container_4 --net host busybox sleep 1000
+docker exec -it container_4 ifconfig
+
+➜  section4 git:(master) ✗ docker exec -it container_4 ifconfig
+br-4589fa4030e4 Link encap:Ethernet  HWaddr 02:42:DD:E0:F6:68  
+          inet addr:172.19.0.1  Bcast:172.19.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::42:ddff:fee0:f668/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:19 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:14 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1540 (1.5 KiB)  TX bytes:1040 (1.0 KiB)
+
+br-b4f1f90ab0b8 Link encap:Ethernet  HWaddr 02:42:E7:C6:7C:DE  
+          inet addr:172.18.0.1  Bcast:172.18.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::42:e7ff:fec6:7cde/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:55 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:75 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:6026 (5.8 KiB)  TX bytes:9372 (9.1 KiB)
+
+docker0   Link encap:Ethernet  HWaddr 02:42:B0:90:0F:26  
+          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::42:b0ff:fe90:f26/64 Scope:Link
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:1856 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2760 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:120735 (117.9 KiB)  TX bytes:2530386 (2.4 MiB)
+
+eth0      Link encap:Ethernet  HWaddr 02:50:00:00:00:01  
+          inet addr:192.168.65.3  Bcast:192.168.65.255  Mask:255.255.255.0
+          inet6 addr: fe80::47ec:aa4f:d76:58a4/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:210561 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:70488 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:305986209 (291.8 MiB)  TX bytes:3981660 (3.7 MiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:11382 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:11382 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1 
+          RX bytes:1035896 (1011.6 KiB)  TX bytes:1035896 (1011.6 KiB)
+
+veth83bc651 Link encap:Ethernet  HWaddr A6:67:08:58:2D:FD  
+          inet6 addr: fe80::a467:8ff:fe58:2dfd/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:19 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:27 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1806 (1.7 KiB)  TX bytes:2038 (1.9 KiB)
+
+veth95cb2ed Link encap:Ethernet  HWaddr E6:19:AA:C1:9A:60  
+          inet6 addr: fe80::e419:aaff:fec1:9a60/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:10 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:33 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:614 (614.0 B)  TX bytes:2388 (2.3 KiB)
+
+veth97e341a Link encap:Ethernet  HWaddr B6:C9:3B:44:90:54  
+          inet6 addr: fe80::b4c9:3bff:fe44:9054/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:5 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:22 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:343 (343.0 B)  TX bytes:1601 (1.5 KiB)
+
+```
+
+#### Host Network
+
+* Minimum network security level.
+* No isolation on this type of open containers, thus leave tje container widely unprotected.
+* Containers running in the host network stack should see a higher level of performance than those traversing the docker0 
+bridge and iptables port mappings.
+
+#### Overlay Network
+
+* Supports multi-host networking out-of-the-box.
+* Require some pre-existing conditions before it can be created.
+    * Running Docker engine in Swarm mode.
+    * A key-value store sucha as consul.
+
+https://docs.docker.com/network/overlay-standalone.swarm/
+
+### 31.- Define Container Networks with Doker Compose
