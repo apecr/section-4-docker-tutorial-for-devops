@@ -75,7 +75,6 @@ docker inspect container_1 # to get the IP ("IPAddress": "172.17.0.2")
 docker exec -it container_3 ping 172.17.0.2 => ERROR
 docker network connect bridge container_3
 docker exec -it container_3 ifconfig
-```
 
 ➜  section4 git:(master) ✗ docker exec -it container_3 ifconfig       
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:13:00:02  
@@ -102,11 +101,9 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:1 
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-```
 docker exec -it container_3 ping 172.17.0.2 => OK
 docker network disconnect bridge container_3
 docker exec -it container_3 ifconfig
-```
 
 ➜  section4 git:(master) ✗ docker exec -it container_3 ifconfig        
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:13:00:02  
@@ -124,6 +121,7 @@ lo        Link encap:Local Loopback
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1 
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+```
 
 #### Bridge Network
 
