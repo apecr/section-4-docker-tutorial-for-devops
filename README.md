@@ -24,7 +24,6 @@ docker network inspect bridge
 docker run -d --name container_1 busybox sleep 100
 docker exec -it container_1 ifconfig # loopback and eth0
 
-```
 (venv) ➜  section4 git:(master) ✗ docker exec -it container_1 ifconfig                                                     
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
           inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
@@ -41,12 +40,10 @@ lo        Link encap:Local Loopback
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1 
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-```
 
 docker run -d --name container_2 busybox sleep 1000
 docker exec -it container_2 ifconfig
 
-```
 (venv) ➜  section4 git:(master) ✗ docker exec -it container_2 ifconfig              
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:03  
           inet addr:172.17.0.3  Bcast:172.17.255.255  Mask:255.255.0.0
@@ -63,6 +60,5 @@ lo        Link encap:Local Loopback
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1 
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-```
 
 ```
